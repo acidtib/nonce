@@ -13,7 +13,7 @@ module Nonce
       Crest.post(
         "#{CONF["ping_host"]}/#{CONF["node_id"]}",
         headers: {"Content-Type" => "application/json"},
-        form: data.to_json,
+        form: data,
         logging: true
       )
     end
