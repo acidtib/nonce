@@ -20,6 +20,4 @@ module Nonce
   end
 end
 
-puts Nonce::VERSION
-
 Nonce::BTC.getblockchaininfo
