@@ -1,6 +1,2 @@
-/docs/
-/lib/
-/bin/
-/.shards/
-*.dwarf
-nonce
+# Ignore bundler config.
+/.bundle
