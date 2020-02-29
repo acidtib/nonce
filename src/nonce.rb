@@ -1,6 +1,6 @@
-require "bundler/setup"
 require 'yaml'
 require 'json'
+require 'httparty'
 
 CONF = YAML.load_file("/root/nonce.yml")
 
