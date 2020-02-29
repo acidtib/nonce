@@ -18,7 +18,7 @@ module Nonce
 
   class BTC
     def self.getblockchaininfo
-      data = `bitcoin-cli getblockchaininfo`
+      data = `/usr/local/bin/bitcoin-cli getblockchaininfo`
 
       if Helper.valid_json?(data)
         HTTParty.post("#{CONF["ping_host"]}/#{CONF["node_id"]}",
