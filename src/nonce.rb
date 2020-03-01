@@ -14,6 +14,13 @@ module Nonce
         return false
       end
     end
+
+    def self.ping(data)
+      HTTParty.post("#{CONF["ping_host"]}/#{CONF["node_id"]}",
+        :body => data,
+        :headers => { 'Content-Type' => 'application/json' } 
+      )
+    end
   end
 
   class BTC
@@ -21,13 +28,27 @@ module Nonce
       data = `/usr/local/bin/bitcoin-cli getblockchaininfo`
 
       if Helper.valid_json?(data)
-        HTTParty.post("#{CONF["ping_host"]}/#{CONF["node_id"]}",
-          :body => data,
-          :headers => { 'Content-Type' => 'application/json' } 
-        )
+        j = JSON.parse(data)
+        return {
+          chain: data["chain"],
+          blocks: data["blocks"],
+          verificationprogress: data["verificationprogress"],
+          initialblockdownload: data["initialblockdownload"],
+          size_on_disk: data["size_on_disk"],
+          pruned: data["pruned"]
+        }
+      else
+        return {
+          error: "issue getting blockchain info"
+        }
       end   
     end
   end
 end
 
-Nonce::BTC.getblockchaininfo
+getblockchaininfo = Nonce::BTC.getblockchaininfo
+
+usage = `df -m #{CONF["path"]}`.split(/\b/)[26]
+disk_usage = {disk_usage: usage}
+
+Nonce::Helper.ping(getblockchaininfo.merge(disk_usage))
