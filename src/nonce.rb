@@ -17,7 +17,7 @@ module Nonce
 
     def self.ping(data)
       HTTParty.post("#{CONF["ping_host"]}/#{CONF["node_id"]}",
-        :body => data,
+        :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' } 
       )
     end
