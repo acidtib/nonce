@@ -30,12 +30,12 @@ module Nonce
       if Helper.valid_json?(data)
         j = JSON.parse(data)
         return {
-          chain: data["chain"],
-          blocks: data["blocks"],
-          verificationprogress: data["verificationprogress"],
-          initialblockdownload: data["initialblockdownload"],
-          size_on_disk: data["size_on_disk"],
-          pruned: data["pruned"]
+          chain: j["chain"],
+          blocks: j["blocks"],
+          verificationprogress: j["verificationprogress"],
+          initialblockdownload: j["initialblockdownload"],
+          size_on_disk: j["size_on_disk"],
+          pruned: j["pruned"]
         }
       else
         return {
