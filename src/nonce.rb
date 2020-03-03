@@ -66,7 +66,7 @@ module Nonce
   end
 end
 
-case CONF["ping_host"]
+case CONF["blockchain"]
 when "bitcoin-core"
   getblockchaininfo = Nonce::BTC.getblockchaininfo
 when "bitcoin-sv"
