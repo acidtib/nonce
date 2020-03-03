@@ -44,9 +44,34 @@ module Nonce
       end   
     end
   end
+
+  class BSV
+    def self.getblockchaininfo
+      data = `/usr/local/bin/bitcoin-cli getblockchaininfo`
+
+      if Helper.valid_json?(data)
+        j = JSON.parse(data)
+        return {
+          chain: j["chain"],
+          blocks: j["blocks"],
+          verificationprogress: j["verificationprogress"],
+          pruned: j["pruned"]
+        }
+      else
+        return {
+          error: "issue getting blockchain info"
+        }
+      end   
+    end
+  end
 end
 
-getblockchaininfo = Nonce::BTC.getblockchaininfo
+case CONF["ping_host"]
+when "bitcoin-core"
+  getblockchaininfo = Nonce::BTC.getblockchaininfo
+when "bitcoin-sv"
+  getblockchaininfo = Nonce::BSV.getblockchaininfo
+end
 
 usage = `df -m #{CONF["path"]}`.split(/\b/)[26]
 disk_usage = {disk_usage: usage}
